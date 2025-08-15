@@ -4,7 +4,7 @@ import type React from "react";
 import { useState } from "react";
 import { validateForm } from "./validation";
 import { NotificationState, RegistrationModalProps, FormErrors } from "./type";
-import { Notification } from "../notification/notification";
+import Toast from "../notification/toast";
 
 type FormData = {
   name: string;
@@ -75,7 +75,6 @@ export default function RegistrationModal({
         });
 
         const result = await response.json();
-        console.log("Server response:", result);
         if (result.success) {
           setNotification({
             show: true,
@@ -141,6 +140,14 @@ export default function RegistrationModal({
 
   return (
     <div className="fixed inset-0 bg-[#00000066] flex items-center justify-center z-50 p-4">
+      <Toast
+        show={notification.show}
+        message={notification.message}
+        success={notification.success}
+        onClose={() =>
+          setNotification({ show: false, success: false, message: "" })
+        }
+      />
       <div className="bg-white/95 backdrop-blur-sm rounded-2xl shadow-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto border border-white/20">
         <div className="p-4">
           <div className="text-center mb-8">
@@ -171,12 +178,6 @@ export default function RegistrationModal({
               Secure your spot at Africa&apos;s premier wealth creation event
             </p>
           </div>
-          {notification.show && (
-            <Notification
-              success={notification.success}
-              message={notification.message}
-            />
-          )}
           <form onSubmit={handleSubmit} className="space-y-6" noValidate>
             {/* Name */}
             <div className="space-y-2">

@@ -11,7 +11,7 @@ type FormData = {
 };
 
 export const apiFormHanlder = async (body: FormData) => {
-  const API_Base_Url = process.env.NEXT_APP_BACKEND_API_URL;
+  const API_Base_Url = process.env.NEXT_PUBLIC_BACKEND_API_URL;
 
   if (!API_Base_Url) {
     throw new Error("NEXT_APP_BACKEND_API_URL is not defined");

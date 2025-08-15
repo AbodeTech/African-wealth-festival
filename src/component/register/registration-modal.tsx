@@ -2,7 +2,6 @@
 
 import type React from "react";
 import { useState } from "react";
-import { apiFormHanlder } from "@/lib/api/formsubmit";
 import { validateForm } from "./validation";
 import { NotificationState, RegistrationModalProps, FormErrors } from "./type";
 import { Notification } from "../notification/notification";
@@ -67,7 +66,16 @@ export default function RegistrationModal({
         }
 
         console.log("Registration data:", cleanedData);
-        const result = await apiFormHanlder(cleanedData);
+        const response = await fetch("/api/register", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(cleanedData),
+        });
+
+        const result = await response.json();
+        console.log("Server response:", result);
         if (result.success) {
           setNotification({
             show: true,
